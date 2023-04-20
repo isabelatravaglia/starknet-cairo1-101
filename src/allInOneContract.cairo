@@ -1,3 +1,5 @@
+use starknet::ContractAddress;
+
 #[abi]
 trait IVariousExercises {
     fn claim_points();
@@ -7,6 +9,21 @@ trait IVariousExercises {
 trait IEx2 {
     fn my_secret_value() -> u128;
     fn claim_points(secret_value: u128);
+}
+
+#[abi] 
+trait IEx3 {
+    fn increment_counter();
+    fn decrement_counter();
+    fn claim_points();
+}
+
+#[abi]
+trait IEx4 {
+    fn assign_user_slot();
+    fn get_user_slots(account: ContractAddress) -> u128;
+    fn get_values_mapped(slot: u128) -> u128;
+    fn claim_points(expected_value: u128);
 }
 
 #[contract]
@@ -20,6 +37,10 @@ mod AllInOneContract {
     use super::IVariousExercisesDispatcherTrait;
     use super::IEx2Dispatcher;
     use super::IEx2DispatcherTrait;
+    use super::IEx3Dispatcher;
+    use super::IEx3DispatcherTrait;
+    use super::IEx4Dispatcher;
+    use super::IEx4DispatcherTrait;
 
     ////////////////////////////////
     // Internal Constructor
@@ -59,19 +80,13 @@ mod AllInOneContract {
         
     }
 
-    ////////////////////////////////
-    // Storage
-    // In Cairo 1, storage is declared in a struct
-    // Storage is not visible by default through the ABI
-    ////////////////////////////////
+
     struct Storage {
         exercise_addresses_storage: LegacyMap::<u128, ContractAddress>,
         contract_owner_storage: ContractAddress
     }
 
-    // Constructor
-    // contract owner
-    // exercises addresses
+
     #[constructor]
     fn constructor(
         _contract_owner: ContractAddress,
@@ -116,6 +131,23 @@ mod AllInOneContract {
         let ex2_addr = exercise_addresses_storage::read(2_u128);
         let secret_value = IEx2Dispatcher{contract_address: ex2_addr}.my_secret_value();
         IEx2Dispatcher{contract_address: ex2_addr}.claim_points(secret_value);
+
+        // Ex3
+        let ex3_addr = exercise_addresses_storage::read(3_u128);
+        IEx3Dispatcher{contract_address: ex3_addr}.increment_counter();
+        IEx3Dispatcher{contract_address: ex3_addr}.increment_counter();
+        IEx3Dispatcher{contract_address: ex3_addr}.decrement_counter();
+        IEx3Dispatcher{contract_address: ex3_addr}.claim_points();
+
+        // Ex4
+        let caller: ContractAddress = get_caller_address();
+        let ex4_addr = exercise_addresses_storage::read(4_u128);
+        IEx4Dispatcher{contract_address: ex4_addr}.assign_user_slot();
+        let user_slot = IEx4Dispatcher{contract_address: ex4_addr}.get_user_slots(caller);
+        let mis_mapped_value = IEx4Dispatcher{contract_address: ex4_addr}.get_values_mapped(user_slot);
+        let expected_mapped_value = mis_mapped_value - 32_u128;
+        IEx4Dispatcher{contract_address: ex4_addr}.claim_points(expected_mapped_value);
+
 
     }
 
