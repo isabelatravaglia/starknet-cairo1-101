@@ -16,10 +16,6 @@ mod AllInOneContract {
     use starknet::get_contract_address;
     use starknet::ContractAddress;
 
-    // use starknet_cairo1_101::token::IERC20::IERC20Dispatcher;
-    // use starknet_cairo1_101::token::IERC20::IERC20DispatcherTrait;
-    // use super::IAllInOneContractDispatcher;
-    // use super::IAllInOneContractDispatcherTrait;
     use super::IVariousExercisesDispatcher;
     use super::IVariousExercisesDispatcherTrait;
     use super::IEx2Dispatcher;
@@ -100,6 +96,12 @@ mod AllInOneContract {
     // Validate all exercises Function
     // validate_various_exercises: should collect points from the previous exercises by calling their claim_points function.
     // Then call ex14 claim_points function so that it can check that all the previous points were collected.
+
+
+    #[view]
+    fn contract_owner() -> ContractAddress {
+        contract_owner_storage::read()
+    }
 
     #[external]
     fn validate_various_exercises() {
