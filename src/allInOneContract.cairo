@@ -1,4 +1,6 @@
 use starknet::ContractAddress;
+use array::ArrayTrait;
+// use option::OptionTrait;
 
 #[abi]
 trait IVariousExercises {
@@ -49,12 +51,20 @@ trait IEx7 {
     fn claim_points(value_a: u128, value_b: u128);
 }
 
+#[abi]
+trait IEx8 {
+    fn set_user_values(account: ContractAddress, values: Array::<u128>);
+    fn claim_points();
+}
+
 #[contract]
 mod AllInOneContract {
 
     use starknet::get_caller_address;
     use starknet::get_contract_address;
     use starknet::ContractAddress;
+    use array::ArrayTrait;
+    use option::OptionTrait;
 
     use super::IVariousExercisesDispatcher;
     use super::IVariousExercisesDispatcherTrait;
@@ -70,8 +80,8 @@ mod AllInOneContract {
     use super::IEx6DispatcherTrait;
     use super::IEx7Dispatcher;
     use super::IEx7DispatcherTrait;
-    // use super::IEx8Dispatcher;
-    // use super::IEx8DispatcherTrait;
+    use super::IEx8Dispatcher;
+    use super::IEx8DispatcherTrait;
     // use super::IEx9Dispatcher;
     // use super::IEx9DispatcherTrait;
     // use super::IEx10Dispatcher;
@@ -211,6 +221,24 @@ mod AllInOneContract {
         // Ex 7
         let ex7_addr = exercise_addresses_storage::read(7_u128);
         IEx7Dispatcher{contract_address: ex7_addr}.claim_points(42_u128, 0_u128);
+
+        // Ex 8
+        let caller: ContractAddress = get_caller_address();
+        let ex8_addr = exercise_addresses_storage::read(8_u128);
+        let mut values = ArrayTrait::new();
+        values.append(0_u128);
+        values.append(1_u128);
+        values.append(2_u128);
+        values.append(3_u128);
+        values.append(4_u128);
+        values.append(5_u128);
+        values.append(6_u128);
+        values.append(7_u128);
+        values.append(8_u128);
+        values.append(9_u128);
+        values.append(10_u128);
+        IEx8Dispatcher{contract_address: ex8_addr}.set_user_values(caller, values);
+        IEx8Dispatcher{contract_address: ex8_addr}.claim_points();
 
 
 
