@@ -26,6 +26,15 @@ trait IEx4 {
     fn claim_points(expected_value: u128);
 }
 
+#[abi]
+trait IEx5 {
+    fn assign_user_slot();
+    fn copy_secret_value_to_readable_mapping();
+    fn get_user_slots(account: ContractAddress) -> u128;
+    fn get_user_values(account: ContractAddress) -> u128;
+    fn claim_points(expected_value: u128);
+}
+
 #[contract]
 mod AllInOneContract {
 
@@ -41,6 +50,8 @@ mod AllInOneContract {
     use super::IEx3DispatcherTrait;
     use super::IEx4Dispatcher;
     use super::IEx4DispatcherTrait;
+    use super::IEx5Dispatcher;
+    use super::IEx5DispatcherTrait;
 
     ////////////////////////////////
     // Internal Constructor
@@ -148,7 +159,14 @@ mod AllInOneContract {
         let expected_mapped_value = mis_mapped_value - 32_u128;
         IEx4Dispatcher{contract_address: ex4_addr}.claim_points(expected_mapped_value);
 
-
+        // Ex5
+        let caller: ContractAddress = get_caller_address();
+        let ex5_addr = exercise_addresses_storage::read(5_u128);
+        IEx5Dispatcher{contract_address: ex5_addr}.assign_user_slot();
+        IEx5Dispatcher{contract_address: ex5_addr}.copy_secret_value_to_readable_mapping();
+        let correct_secret_value = IEx5Dispatcher{contract_address: ex5_addr}.get_user_values(caller) + 23_u128;
+        let expected_value = correct_secret_value - 32_u128;
+        IEx5Dispatcher{contract_address: ex5_addr}.claim_points(expected_value);
     }
 
     #[external]
