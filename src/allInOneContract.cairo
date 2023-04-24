@@ -57,6 +57,11 @@ trait IEx8 {
     fn claim_points();
 }
 
+#[abi]
+trait IEx9 {
+    fn claim_points(array: Array::<u128>);
+}
+
 #[contract]
 mod AllInOneContract {
 
@@ -82,8 +87,8 @@ mod AllInOneContract {
     use super::IEx7DispatcherTrait;
     use super::IEx8Dispatcher;
     use super::IEx8DispatcherTrait;
-    // use super::IEx9Dispatcher;
-    // use super::IEx9DispatcherTrait;
+    use super::IEx9Dispatcher;
+    use super::IEx9DispatcherTrait;
     // use super::IEx10Dispatcher;
     // use super::IEx10DispatcherTrait;
     // use super::IEx11Dispatcher;
@@ -240,7 +245,15 @@ mod AllInOneContract {
         IEx8Dispatcher{contract_address: ex8_addr}.set_user_values(caller, values);
         IEx8Dispatcher{contract_address: ex8_addr}.claim_points();
 
-
+        // Ex 9
+        let ex9_addr = exercise_addresses_storage::read(9_u128);
+        let mut values = ArrayTrait::new();
+        values.append(10_u128);
+        values.append(15_u128);
+        values.append(20_u128);
+        values.append(25_u128);
+        values.append(30_u128);
+        IEx9Dispatcher{contract_address: ex9_addr}.claim_points(values);
 
     }
 
