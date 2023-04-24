@@ -62,6 +62,20 @@ trait IEx9 {
     fn claim_points(array: Array::<u128>);
 }
 
+#[abi]
+trait IEx10 {
+    fn claim_points(secret_value_i_guess: u128, next_secret_value_i_chose: u128);
+    fn get_ex10b_address() -> ContractAddress;
+}
+
+#[abi]
+trait IEx10b {
+    fn get_secret_value() -> u128;
+    fn change_secret_value(new_secret_value: u128);
+}
+
+
+
 #[contract]
 mod AllInOneContract {
 
@@ -89,8 +103,10 @@ mod AllInOneContract {
     use super::IEx8DispatcherTrait;
     use super::IEx9Dispatcher;
     use super::IEx9DispatcherTrait;
-    // use super::IEx10Dispatcher;
-    // use super::IEx10DispatcherTrait;
+    use super::IEx10Dispatcher;
+    use super::IEx10DispatcherTrait;
+    use super::IEx10bDispatcher;
+    use super::IEx10bDispatcherTrait;
     // use super::IEx11Dispatcher;
     // use super::IEx11DispatcherTrait;
     // use super::IEx12Dispatcher;
@@ -254,6 +270,15 @@ mod AllInOneContract {
         values.append(25_u128);
         values.append(30_u128);
         IEx9Dispatcher{contract_address: ex9_addr}.claim_points(values);
+
+        //  Ex 10
+        let ex10_addr = exercise_addresses_storage::read(10_u128);
+        let ex10b_addr = IEx10Dispatcher{contract_address: ex10_addr}.get_ex10b_address();
+        let secret_value = IEx10bDispatcher{contract_address: ex10b_addr}.get_secret_value();
+        let next_secret_value_i_chose = secret_value + 1_u128;
+        IEx10Dispatcher{contract_address: ex10_addr}.claim_points(secret_value, next_secret_value_i_chose);
+        
+
 
     }
 
