@@ -44,6 +44,11 @@ trait IEx6 {
     fn claim_points(expected_value: u128);
 }
 
+#[abi]
+trait IEx7 {
+    fn claim_points(value_a: u128, value_b: u128);
+}
+
 #[contract]
 mod AllInOneContract {
 
@@ -63,6 +68,21 @@ mod AllInOneContract {
     use super::IEx5DispatcherTrait;
     use super::IEx6Dispatcher;
     use super::IEx6DispatcherTrait;
+    use super::IEx7Dispatcher;
+    use super::IEx7DispatcherTrait;
+    // use super::IEx8Dispatcher;
+    // use super::IEx8DispatcherTrait;
+    // use super::IEx9Dispatcher;
+    // use super::IEx9DispatcherTrait;
+    // use super::IEx10Dispatcher;
+    // use super::IEx10DispatcherTrait;
+    // use super::IEx11Dispatcher;
+    // use super::IEx11DispatcherTrait;
+    // use super::IEx12Dispatcher;
+    // use super::IEx12DispatcherTrait;
+    // use super::IEx13Dispatcher;
+    // use super::IEx13DispatcherTrait;
+
 
     ////////////////////////////////
     // Internal Constructor
@@ -187,6 +207,13 @@ mod AllInOneContract {
         IEx6Dispatcher{contract_address: ex6_addr}.external_handler_for_internal_function(useless_random_value);
         let expected_value = IEx6Dispatcher{contract_address: ex6_addr}.get_user_values(caller);
         IEx6Dispatcher{contract_address: ex6_addr}.claim_points(expected_value);
+
+        // Ex 7
+        let ex7_addr = exercise_addresses_storage::read(7_u128);
+        IEx7Dispatcher{contract_address: ex7_addr}.claim_points(42_u128, 0_u128);
+
+
+
     }
 
     #[external]
