@@ -74,6 +74,12 @@ trait IEx10b {
     fn change_secret_value(new_secret_value: u128);
 }
 
+#[abi]
+trait IEx11 {
+    fn claim_points(secret_value_i_guess: u128, next_secret_value_i_chose: u128);
+    fn secret_value() -> u128;
+}
+
 
 
 #[contract]

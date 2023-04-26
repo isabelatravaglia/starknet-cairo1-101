@@ -26,6 +26,6 @@
     },
     "remoteUser": "cairo",
     // "postStartCommand": "source ~/cairo_venv/bin/activate"
-    "postStartCommand": "echo 'export STARKNET_NETWORK=alpha-goerli\nexport STARKNET_WALLET=starkware.starknet.wallets.open_zeppelin.OpenZeppelinAccount' >> ~/.zshrc"
+    "postStartCommand": "echo 'export STARKNET_NETWORK=alpha-goerli\nexport STARKNET_WALLET=starkware.starknet.wallets.open_zeppelin.OpenZeppelinAccount' >> ~/.zshrc && npm install starknet dotenv"
   }
   
