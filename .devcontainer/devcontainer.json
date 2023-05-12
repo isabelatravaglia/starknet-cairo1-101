@@ -1,8 +1,8 @@
 {
-    "name": "cairo1-dev",
+    "name": "starknet-cairo-101",
     "dockerComposeFile": "docker-compose.yml",
     "service": "app",
-    "workspaceFolder": "/workspace",
+    "workspaceFolder": "/starknet-cairo-101",
     
     "customizations": {
       "vscode": {

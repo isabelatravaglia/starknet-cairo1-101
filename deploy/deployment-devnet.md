@@ -6,8 +6,8 @@ export STARKNET_WALLET=starkware.starknet.wallets.open_zeppelin.OpenZeppelinAcco
 
 ### Setup accounts
 ```bash
-starknet new_account --account admin --gateway_url http://localhost:5050 --feeder_gateway_url http://localhost:5050
-starknet deploy_account --account admin --gateway_url http://localhost:5050 --feeder_gateway_url http://localhost:5050
+starknet new_account --account admin2 --gateway_url http://localhost:5050 --feeder_gateway_url http://localhost:5050
+starknet deploy_account --account admin2 --gateway_url http://localhost:5050 --feeder_gateway_url http://localhost:5050
 
 starknet new_account --account test --gateway_url http://localhost:5050 --feeder_gateway_url http://localhost:5050
 starknet deploy_account --account test --gateway_url http://localhost:5050 --feeder_gateway_url http://localhost:5050
@@ -15,20 +15,21 @@ starknet deploy_account --account test --gateway_url http://localhost:5050 --fee
 
 ### Export Account
 ```bash
-export ACCT_ADMIN=0x707d687d44fbe083b43a1c17d0f66615bcfbe73b645c933065bf43f68d47979
-export ACCT_TEST=0x06f249480e59dbf016c0696ae1904218931f764857b9f4871c3284ec3ffe78ad
-export TDERC20=0x05e8e1c965d59bc44f109f72b9e67cedfa069352c4704723e123271827c49196
-export PLAYER_REGISTRY=0x0643c0eb6cd5b848de6b653e621b4e550e11921908d324df623ee4dcc9cd5809
+# Check file on /home/cairo/.starknet_accounts/starknet_open_zeppelin_accounts.json anf fill ACC_ADMIN and ACC_TEST with the address of the admin and test accounts created previously
+export ACCT_ADMIN=0x38c2739d1c626bbd5eba3754f37ab0d3ff85a6d3e592e77de97b75939393954
+export ACCT_TEST=0x7b4fd3f05a44edb5bda610b0cf63f6ed964e94f9f3cfdee9cd7c4dec774e038
+export TDERC20=0x04d4f4190f75b11dbee05ed192f4da39c9963a31dac14379cb8dbd6b41186fbd
+export PLAYER_REGISTRY=0x0352e1c167dd6acbdf319ec9d6bb95b6749a62f9013757c52af003520a8ea746
 ```
 
 ### Check txn status
 ``` bash
-starknet tx_status --gateway_url http://localhost:5050 --feeder_gateway_url http://localhost:5050 --hash 0x75afca7b8eda9750065ce7a8c4816bc3797d9ec9698d335dc2680bb12f061e5
+starknet tx_status --gateway_url http://localhost:5050 --feeder_gateway_url http://localhost:5050 --hash 0x33a8fa6c43dc8d752437cbfc7c47534f2a7e90228aef514691d169a6282ce0b
 ```
 
 ### Declare contracts on dev-net
 ``` bash
-starknet declare --contract target/release/starknet_cairo_101_TDERC20.json --account admin --gateway_url http://localhost:5050 --feeder_gateway_url http://localhost:5050 --max_fee 100000000000000000000
+starknet declare --contract target/release/starknet_cairo_101_TDERC20.sierra.json --account admin --gateway_url http://localhost:5050 --feeder_gateway_url http://localhost:5050 --max_fee 100000000000000000000
 starknet declare --contract target/release/starknet_cairo_101_PlayersRegistry.json --account admin --gateway_url http://localhost:5050 --feeder_gateway_url http://localhost:5050 --max_fee 100000000000000000000
 starknet declare --contract target/release/starknet_cairo_101_ex01.json --account admin --gateway_url http://localhost:5050 --feeder_gateway_url http://localhost:5050 --max_fee 100000000000000000000
 starknet declare --contract target/release/starknet_cairo_101_ex02.json --account admin --gateway_url http://localhost:5050 --feeder_gateway_url http://localhost:5050 --max_fee 100000000000000000000
@@ -50,7 +51,7 @@ starknet declare --contract target/release/starknet_cairo_101_ex14.json --accoun
 ### Deploy contracts on dev-net
 ``` bash
 ## TDERC20
-starknet deploy --salt 0x1234 --class_hash 0x2de7e654139db6c8c05d7c456b953e8feba7055a25d6dc0ab5d538314d96a6 --inputs 10057515165931654559836545801321088512241713 357609582641 18 0 0 $ACCT_ADMIN $ACCT_ADMIN --account admin --gateway_url http://localhost:5050 --feeder_gateway_url http://localhost:5050 --max_fee 100000000000000000000
+starknet deploy --salt 0x1234 --class_hash 0x607f64956d28e3e6b173edb44023e3e6592771e2646cb0d63c4877519a40f5d --inputs 10057515165931654559836545801321088512241713 357609582641 18 0 0 $ACCT_ADMIN $ACCT_ADMIN --account admin --gateway_url http://localhost:5050 --feeder_gateway_url http://localhost:5050 --max_fee 100000000000000000000
 
 ## PlayerRegistry
 starknet deploy --salt 0x1234 --class_hash 0x25f0f9beb3c3bf0c01678aa830ff96fad5f2bd05b23a8f4c0a2bce92ec5f25d --inputs $ACCT_ADMIN --account admin --gateway_url http://localhost:5050 --feeder_gateway_url http://localhost:5050 --max_fee 100000000000000000000

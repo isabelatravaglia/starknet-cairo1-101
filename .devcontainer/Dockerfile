@@ -76,7 +76,15 @@ RUN git clone https://github.com/starkware-libs/cairo/ ~/.cairo \
 && git checkout tags/v1.0.0-alpha.6 \
 && /home/cairo/.cargo/bin/cargo build --all --release
 
+# Install Scarb
+RUN git clone https://github.com/software-mansion/scarb/ ~/scarb \ 
+&& cd ~/scarb \
+&& git checkout tags/v0.2.0-alpha.0 \
+&& /home/cairo/.cargo/bin/cargo build --all --release
+
 ENV PATH /home/cairo/.cairo/target/release:$PATH
+ENV PATH /home/cairo/scarb/target/release:$PATH
+
 
 # Compile and Install Extension
 RUN sudo npm install -g @vscode/vsce\
