@@ -9,7 +9,7 @@ export STARKNET_WALLET=starkware.starknet.wallets.open_zeppelin.OpenZeppelinAcco
 starknet-devnet
 ```
 
-<!-- starknet-devnet seed 1933948612 --timeout 5000 -->
+<!-- starknet-devnet --seed 1933948612 --timeout 5000 -->
 
 3- ### Setup accounts
 ```bash
